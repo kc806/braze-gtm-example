@@ -58,18 +58,6 @@
   <!-- End Google Tag Manager -->
 
   <script type="text/javascript">
-    (function(a,p,P,b,y){
-      a.braze=function(){a.braze.q.push(arguments)};
-      a.braze.q=[];
-      a.braze.l=+new Date;
-      b=p.createElement(P);
-      y=p.getElementsByTagName(P)[0];
-      b.async=1;
-      b.src='https://sdk.iad-06.braze.com/js/v4.1/braze.min.js';
-      y.parentNode.insertBefore(b,y);
-    })(window,document,'script');
-
-    braze.initialize('YOUR-API-KEY', {baseUrl: 'YOUR-BASE-URL'});
 
     function displayContentCards() {
       braze.requestContentCardsRefresh();
