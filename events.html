@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-59LJG6KH');</script>
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-59LJG6KH');
+  </script>
   <!-- End Google Tag Manager -->
 
   <meta charset="UTF-8">
@@ -22,21 +23,36 @@
       align-items: center;
       height: 100vh;
       margin: 0;
+      overflow: hidden;
     }
+
+    .wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+
     .container {
       background-color: white;
       padding: 2rem;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
+      max-width: 600px;
       width: 100%;
       text-align: center;
     }
+
     h1 {
       text-align: center;
       color: #333;
     }
-    input, button {
+
+    input,
+    button,
+    select {
       width: calc(100% - 20px);
       padding: 10px;
       margin-bottom: 10px;
@@ -44,55 +60,112 @@
       border: 1px solid #ccc;
       font-size: 16px;
     }
+
     button {
       background-color: #007bff;
       color: white;
       border: none;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #0056b3;
     }
+
     .buttons {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-  </style>
 
-  <script type="text/javascript">
-
-    function logEvent() {
-      const eventName = 'example_event';
-      braze.logCustomEvent(eventName);
-      alert("Event " + eventName + " logged!");
+    .event-property-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: center;
     }
 
-    function setAttribute() {
-      const key = 'favorite_color';
-      const value = document.getElementById('favorite_color').value;
-      braze.getUser().setCustomUserAttribute(key, value);
-      alert("Attribute " + key + " set to " + value + "!");
+    .event-property-row input,
+    .event-property-row select {
+      flex: 1;
+    }
+
+    .event-property-row button {
+      width: 80px;
+      flex-shrink: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59LJG6KH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <div class="wrapper">
+    <div class="container">
+      <h1>Custom Data</h1>
+      <div class="buttons">
+        <!-- Custom Event Logging -->
+        <input type="text" id="event_name" placeholder="Event Name">
+        <div id="event_properties_container">
+          <!-- Dynamic event property rows will be added here -->
+        </div>
+        <button id="add_property_button" onclick="addPropertyRow()">Add Property</button>
+        <button id="log_event_button" onclick="logCustomEvent()">Log Event</button>
+
+        <!-- Custom Attribute Setting -->
+        <input type="text" id="attribute_name" placeholder="Attribute Name">
+        <input type="text" id="attribute_value" placeholder="Attribute Value">
+        <button id="set_attribute_button">Set Attribute</button>
+
+        <!-- Navigation to Content Cards -->
+        <button id="navigate_content_cards_button" onclick="navigateToContentCards()">Go to Content Cards</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    function addPropertyRow() {
+      const propertyRow = document.createElement('div');
+      propertyRow.classList.add('event-property-row');
+      propertyRow.innerHTML = `
+        <input type="text" class="property-key" placeholder="Property Key">
+        <input type="text" class="property-value" placeholder="Property Value">
+        <select class="property-type">
+          <option value="string">String</option>
+          <option value="number">Number</option>
+          <option value="boolean">Boolean</option>
+          <option value="array">Array</option>
+        </select>
+        <button type="button" onclick="this.parentElement.remove()">Remove</button>
+      `;
+      document.getElementById('event_properties_container').appendChild(propertyRow);
+    }
+
+    function parsePropertyValue(value, type) {
+      switch (type) {
+        case 'number':
+          return parseFloat(value);
+        case 'boolean':
+          return value.toLowerCase() === 'true';
+        case 'array':
+          try {
+            return JSON.parse(value);
+          } catch (e) {
+            alert("Array value must be valid JSON.");
+            return [];
+          }
+        case 'string':
+        default:
+          return value;
+      }
     }
 
     function navigateToContentCards() {
       window.location.href = 'content_cards.html'; // Navigate to Content Cards page
     }
   </script>
-</head>
-<body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59LJG6KH"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-  <div class="container">
-    <h1>Event Logging Page</h1>
-    <div class="buttons">
-      <button onclick="logEvent()">Log Event</button>
-      <input type="text" id="favorite_color" placeholder="Favorite Color">
-      <button onclick="setAttribute()">Set Attribute</button>
-      <button onclick="navigateToContentCards()">Go to Content Cards</button>
-    </div>
-  </div>
 </body>
 </html>
