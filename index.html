@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-59LJG6KH');</script>
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-59LJG6KH');</script>
   <!-- End Google Tag Manager -->
 
 
@@ -24,6 +28,7 @@
       height: 100vh;
       margin: 0;
     }
+
     .container {
       background-color: white;
       padding: 2rem;
@@ -32,11 +37,14 @@
       max-width: 400px;
       width: 100%;
     }
+
     h1 {
       text-align: center;
       color: #333;
     }
-    input, button {
+
+    input,
+    button {
       width: calc(100% - 20px);
       padding: 10px;
       margin-bottom: 10px;
@@ -44,12 +52,14 @@
       border: 1px solid #ccc;
       font-size: 16px;
     }
+
     button {
       background-color: #007bff;
       color: white;
       border: none;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #0056b3;
     }
@@ -58,16 +68,22 @@
   <script type="text/javascript">
 
     function loginUser() {
-      const userID = document.getElementById('user_id').value;
-      window.location.href = 'events.html'; // Navigate to the Events and Attributes page
-      return userID;
+      var inputElement = document.getElementById("user_id");
+      // Check if the value of the input element is not blank
+      if (inputElement.value.trim() !== "") {
+        console.log("Input is not blank: ", inputElement.value);
+        window.location.href = 'events.html'; // Navigate to the Events and Attributes page
+      } else {
+        console.log("User ID cannot be blank.");
+      }
     }
   </script>
 </head>
+
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59LJG6KH"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59LJG6KH" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <div class="container">
     <h1>Login Page</h1>
@@ -75,4 +91,5 @@
     <button id="changeUserButton" onclick="loginUser()">Login</button>
   </div>
 </body>
+
 </html>
