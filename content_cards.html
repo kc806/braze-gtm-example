@@ -1,92 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-59LJG6KH');</script>
-  <!-- End Google Tag Manager -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Content Cards Page</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      max-width: 600px;
-      width: 100%;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-    .card {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: #fafafa;
-    }
-    .card h3 {
-      margin: 0 0 5px 0;
-      color: #007bff;
-    }
-    .card p {
-      margin: 0;
-      color: #555;
-    }
-  </style>
-
-  <script type="text/javascript">
-
-    function displayContentCards() {
-      braze.requestContentCardsRefresh();
-      braze.subscribeToContentCardsUpdates(function(cards) {
-        var contentCardsContainer = document.getElementById('content-cards');
-        contentCardsContainer.innerHTML = '';
-
-        cards.forEach(function(card) {
-          var cardHtml = `
-            <div class="card">
-              <h3>${card.title}</h3>
-              <p>${card.description}</p>
-            </div>
-          `;
-          contentCardsContainer.innerHTML += cardHtml;
-        });
-
-        if(cards.length === 0){
-          contentCardsContainer.innerHTML = '<p>No content cards to display.</p>';
-        }
-      });
-    }
-
-    braze.openSession();
-    displayContentCards(); // Display content cards after opening the session
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-59LJG6KH');
   </script>
+  <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Website</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .product { border: 1px solid #ccc; padding: 10px; margin: 10px; }
+        .product img { max-width: 100%; }
+        .product h2 { font-size: 1.25em; }
+        .product p { font-size: 0.875em; }
+        .product button { padding: 10px; background-color: #28a745; color: white; border: none; cursor: pointer; }
+        .product button:disabled { background-color: #ccc; }
+    </style>
+    <script>
+        function addToCart(productId, productName, productPrice) {
+            // Add to cart logic here
+
+            // Push the event to the GTM data layer
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'addToCart',
+                'ecommerce': {
+                    'currencyCode': 'USD',
+                    'add': {
+                        'products': [{
+                            'id': productId,
+                            'name': productName,
+                            'price': productPrice,
+                            'quantity': 1
+                        }]
+                    }
+                }
+            });
+
+            // Disable the button after adding to cart
+            document.getElementById('btn-' + productId).disabled = true;
+        }
+
+        function viewProduct(productId, productName, productPrice) {
+            // Push the event to the GTM data layer
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'viewItem',
+                'ecommerce': {
+                    'currencyCode': 'USD',
+                    'detail': {
+                        'products': [{
+                            'id': productId,
+                            'name': productName,
+                            'price': productPrice
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59LJG6KH"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59LJG6KH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
   <!-- End Google Tag Manager (noscript) -->
-  <div class="container">
-    <h1>Content Cards Page</h1>
-    <div id="content-cards"></div>
-  </div>
+
+    <div class="product" onload="viewProduct('001', 'Product 1', '19.99')">
+        <img src="https://via.placeholder.com/150" alt="Product 1">
+        <h2>Product 1</h2>
+        <p>Price: $19.99</p>
+        <button id="btn-001" onclick="addToCart('001', 'Product 1', '19.99')">Add to Cart</button>
+    </div>
+
+    <div class="product" onload="viewProduct('002', 'Product 2', '29.99')">
+        <img src="https://via.placeholder.com/150" alt="Product 2">
+        <h2>Product 2</h2>
+        <p>Price: $29.99</p>
+        <button id="btn-002" onclick="addToCart('002', 'Product 2', '29.99')">Add to Cart</button>
+    </div>
+
+    <div class="product" onload="viewProduct('003', 'Product 3', '39.99')">
+        <img src="https://via.placeholder.com/150" alt="Product 3">
+        <h2>Product 3</h2>
+        <p>Price: $39.99</p>
+        <button id="btn-003" onclick="addToCart('003', 'Product 3', '39.99')">Add to Cart</button>
+    </div>
 </body>
 </html>
