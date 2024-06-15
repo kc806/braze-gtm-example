@@ -105,7 +105,7 @@
   <!-- End Google Tag Manager (noscript) -->
   <div class="wrapper">
     <div class="container">
-      <h1>Event Logging Page</h1>
+      <h1>Custom Data</h1>
       <div class="buttons">
         <!-- Custom Event Logging -->
         <input type="text" id="event_name" placeholder="Event Name">
@@ -162,29 +162,7 @@
           return value;
       }
     }
-
-    function logCustomEvent() {
-      const eventName = document.getElementById('event_name').value;
-      const propertyRows = document.querySelectorAll('.event-property-row');
-      const eventProperties = {};
-
-      propertyRows.forEach(row => {
-        const key = row.querySelector('.property-key').value;
-        const value = row.querySelector('.property-value').value;
-        const type = row.querySelector('.property-type').value;
-        if (key) {
-          eventProperties[key] = parsePropertyValue(value, type);
-        }
-      });
-
-      if (eventName) {
-        braze.logCustomEvent(eventName, Object.keys(eventProperties).length ? eventProperties : undefined);
-        alert(`Event ${eventName} logged with properties: ${JSON.stringify(eventProperties)}`);
-      } else {
-        alert("Please provide an event name.");
-      }
-    }
-
+    
     function navigateToContentCards() {
       window.location.href = 'content_cards.html'; // Navigate to Content Cards page
     }
