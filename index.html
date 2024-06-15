@@ -43,14 +43,19 @@
       color: #333;
     }
 
-    input,
-    button {
+    input, button {
       width: calc(100% - 20px);
       padding: 10px;
       margin-bottom: 10px;
       border-radius: 4px;
       border: 1px solid #ccc;
       font-size: 16px;
+    }
+
+    .input-button-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     button {
@@ -66,12 +71,11 @@
   </style>
 
   <script type="text/javascript">
-
     function loginUser() {
       var inputElement = document.getElementById("user_id");
       // Check if the value of the input element is not blank
       if (inputElement.value.trim() !== "") {
-        console.log("Input is not blank: ", inputElement.value);
+        console.log("User ID: ", inputElement.value);
       } else {
         console.log("User ID cannot be blank.");
       }
@@ -85,9 +89,11 @@
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <div class="container">
-    <h1>Login Page</h1>
-    <input type="text" id="user_id" placeholder="User ID">
-    <button id="changeUserButton" onclick="loginUser()">Login</button>
+    <h1>Welcome!</h1>
+    <div class="input-button-group">
+      <input type="text" id="user_id" placeholder="User ID">
+      <button id="changeUserButton" onclick="loginUser()">Set User ID</button>
+    </div>
   </div>
 </body>
 
