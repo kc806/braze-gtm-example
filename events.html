@@ -144,25 +144,6 @@
       document.getElementById('event_properties_container').appendChild(propertyRow);
     }
 
-    function parsePropertyValue(value, type) {
-      switch (type) {
-        case 'number':
-          return parseFloat(value);
-        case 'boolean':
-          return value.toLowerCase() === 'true';
-        case 'array':
-          try {
-            return JSON.parse(value);
-          } catch (e) {
-            alert("Array value must be valid JSON.");
-            return [];
-          }
-        case 'string':
-        default:
-          return value;
-      }
-    }
-
     function navigateToContentCards() {
       window.location.href = 'content_cards.html'; // Navigate to Content Cards page
     }
