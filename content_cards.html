@@ -126,5 +126,60 @@
       </div>
     </div>
   </div>
+
+  <script type="text/javascript">
+    function addItemRow() {
+      const itemRow = document.createElement('div');
+      itemRow.classList.add('item-row');
+      itemRow.innerHTML = `
+        <input type="text" class="item-name" placeholder="Item Name">
+        <input type="text" class="item-id" placeholder="Item ID">
+        <input type="number" class="item-price" placeholder="Price">
+        <input type="number" class="item-quantity" placeholder="Quantity">
+        <button type="button" onclick="this.parentElement.remove()">Remove</button>
+      `;
+      document.getElementById('items_container').appendChild(itemRow);
+    }
+  
+    function logCheckoutEvent() {
+      const itemRows = document.querySelectorAll('.item-row');
+      const items = [];
+  
+      itemRows.forEach(row => {
+        const name = row.querySelector('.item-name').value;
+        const id = row.querySelector('.item-id').value;
+        const price = parseFloat(row.querySelector('.item-price').value);
+        const quantity = parseInt(row.querySelector('.item-quantity').value, 10);
+  
+        if ((name || id) && !isNaN(price) && !isNaN(quantity)) {
+          items.push({
+            item_name: name,
+            item_id: id,
+            price: price,
+            quantity: quantity
+          });
+        }
+      });
+  
+      if (items.length > 0) {
+        const transactionId = "T12345"; // Replace with dynamic transaction ID if available
+        const totalValue = items.reduce((total, item) => total + (item.price * item.quantity), 0);
+  
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "purchase",
+          ecommerce: {
+            transaction_id: transactionId,
+            value: totalValue,
+            currency: 'USD',
+            items: items
+          }
+        });
+        alert(`Checkout event logged with items: ${JSON.stringify(items)}`);
+      } else {
+        alert("Please add at least one item with valid details.");
+      }
+    }
+  </script>
 </body>
 </html>
