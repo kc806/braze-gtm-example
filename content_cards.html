@@ -173,7 +173,8 @@
             value: totalValue,
             currency: 'USD',
             items: items
-          }
+          },
+          event_id: "checkout_complete" // Add a unique event ID here
         });
         alert(`Checkout event logged with items: ${JSON.stringify(items)}`);
       } else {
