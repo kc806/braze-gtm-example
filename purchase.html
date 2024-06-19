@@ -184,9 +184,9 @@ function navigateToContentCards() {
         });
         navigateToContentCards();
         //window.dataLayer.push({ event: "checkout_complete" }); // Custom event
-        alert(`Checkout event logged with items: ${JSON.stringify(items)}`);
+        console.log("Checkout event logged with items: ${JSON.stringify(items)}");
       } else {
-        alert("Please add at least one item with valid details.");
+        console.log("Please add at least one item with valid details.");
       }
     }
   </script>
