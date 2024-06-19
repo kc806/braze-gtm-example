@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coupon Feed</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .coupon-feed {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .coupon-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      width: 300px;
+    }
+    .coupon-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .coupon-card img {
+      width: 100%;
+      height: auto;
+    }
+    .coupon-card-content {
+      padding: 20px;
+    }
+    .coupon-card h3 {
+      font-size: 1.5em;
+      margin: 0 0 10px;
+      color: #333;
+    }
+    .coupon-card p {
+      font-size: 1em;
+      margin: 0 0 10px;
+      color: #666;
+    }
+    .coupon-card .coupon-code {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #e74c3c;
+    }
+    .coupon-card .cta-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: #fff;
+      text-align: center;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+    .coupon-card .cta-button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Exclusive Coupons</h1>
+  <div class="coupon-feed" id="coupon-feed"></div>
+
+  <script type="text/javascript">
+    // Ensure Braze SDK is loaded
+    window.brazeQueue = window.brazeQueue || [];
+    window.brazeQueue.push(function() {
+      braze.load("content_cards").then(function() {
+        braze.contentCards.requestContentCardsRefresh();
+        braze.contentCards.subscribeToContentCardsUpdates(function(cards) {
+          var couponFeed = document.getElementById('coupon-feed');
+          couponFeed.innerHTML = ''; // Clear existing content
+
+          cards.forEach(function(card) {
+            if (card.extras && card.extras.type === 'coupon') {
+              var cardHtml = `
+                <div class="coupon-card">
+                  <img src="${card.image_url}" alt="${card.title}">
+                  <div class="coupon-card-content">
+                    <h3>${card.title}</h3>
+                    <p>${card.description}</p>
+                    <p class="coupon-code">Code: ${card.extras.coupon_code}</p>
+                    <a href="${card.url}" class="cta-button">Redeem Now</a>
+                  </div>
+                </div>
+              `;
+              couponFeed.innerHTML += cardHtml;
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
