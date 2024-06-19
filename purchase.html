@@ -128,6 +128,11 @@
   </div>
 
   <script type="text/javascript">
+
+function navigateToContentCards() {
+      window.location.href = 'content_cards.html'; // Navigate to Content Cards page
+    }
+
     function addItemRow() {
       const itemRow = document.createElement('div');
       itemRow.classList.add('item-row');
@@ -177,12 +182,14 @@
             items: items
           }
         });
-        window.dataLayer.push({ event: "checkout_complete" }); // Custom event
+        navigateToContentCards();
+        //window.dataLayer.push({ event: "checkout_complete" }); // Custom event
         alert(`Checkout event logged with items: ${JSON.stringify(items)}`);
       } else {
         alert("Please add at least one item with valid details.");
       }
     }
   </script>
+  
 </body>
 </html>
