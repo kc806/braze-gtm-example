@@ -53,6 +53,9 @@
       transition: transform 0.3s, box-shadow 0.3s;
       width: 300px;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .coupon-card:hover {
@@ -61,19 +64,18 @@
     }
 
     .coupon-card img {
-      width: 100%;
-      height: auto;
-    }
-
-    .coupon-card img {
       width: 50%; /* Set the width to 50% */
       height: auto;
-      margin: 0 auto; /* Center the image horizontally */
+      margin: 20px auto; /* Center the image horizontally with margin */
       display: block; /* Ensure the image is treated as a block element */
     }
 
     .coupon-card-content {
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-grow: 1;
     }
 
     .coupon-card h3 {
