@@ -229,7 +229,7 @@
       console.log = function (message) {
         if (typeof message === 'string' && message.includes("Braze: content_cards/sync SDK request being rate limited.")) {
           rateLimited = true;
-          console.log('Rate-limited: Not updating localStorage.');
+          originalConsoleLog('Rate-limited: Not updating localStorage.');
         }
         originalConsoleLog.apply(console, arguments);
       };
@@ -240,6 +240,7 @@
       // Save cards to localStorage if not rate-limited
       if (!rateLimited) {
         saveCardsToLocalStorage(cards);
+        console.log('Cards saved to localStorage.');
       }
 
       // Restore original console.log
