@@ -202,6 +202,7 @@
 
     function saveCardsToLocalStorage(cards) {
       localStorage.setItem('couponCards', JSON.stringify(cards));
+      console.log('Cards saved to localStorage.');
     }
 
     function getCardsFromLocalStorage() {
@@ -212,6 +213,7 @@
     // Display cards from localStorage initially
     var storedCards = getCardsFromLocalStorage();
     if (storedCards.length > 0) {
+      console.log('Displaying cards from localStorage.');
       displayCards(storedCards);
     }
 
@@ -227,6 +229,7 @@
         return function (message) {
           if (message.includes("Braze: content_cards/sync SDK request being rate limited.")) {
             rateLimited = true;
+            console.log('Rate-limited: Not updating localStorage.');
           }
           oldLog.apply(console, arguments);
         };
