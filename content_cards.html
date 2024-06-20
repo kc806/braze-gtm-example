@@ -189,52 +189,43 @@
       window.braze.requestContentCardsRefresh();
     }
 
-    function initializeBraze() {
-      if (typeof window.braze !== 'undefined' && typeof window.braze.subscribeToContentCardsUpdates === 'function') {
-        window.braze.subscribeToContentCardsUpdates(function (updates) {
-          var cards = updates.cards;
-          var couponFeed = document.getElementById('coupon-feed');
+    // Ensure Braze SDK is loaded
+    window.braze.subscribeToContentCardsUpdates(function (updates) {
+      var cards = updates.cards;
+      var couponFeed = document.getElementById('coupon-feed');
 
-          // Clear existing content by removing all child elements
-          while (couponFeed.firstChild) {
-            couponFeed.removeChild(couponFeed.firstChild);
-          }
-
-          // For example:
-          cards.forEach(function (card) {
-            console.log(card); // Log the card properties to the console
-
-            if (card.isControl) {
-              // Do not display the control card, but remember to call `logContentCardImpressions([card])`
-            } else if (card instanceof braze.ClassicCard || card instanceof braze.CaptionedImage) {
-              if (card.extras["type"] == "coupon" && card.extras["coupon_code"] !== "") {
-                var cardHtml =
-                  '<div class="coupon-card" onclick="window.open(\'' + card.url + '\', \'_blank\')">' +
-                  '<img src="' + card.imageUrl + '" alt="' + card.title + '">' +
-                  '<div class="coupon-card-content">' +
-                  '<h3>' + card.title + '</h3>' +
-                  '<p>' + card.description + '</p>' +
-                  '<p class="coupon-code">Code: ' + card.extras["coupon_code"] + '</p>' +
-                  '</div>' +
-                  '</div>';
-                couponFeed.innerHTML += cardHtml;
-
-                // Log impression for the card
-                window.braze.logContentCardImpressions([card]);
-              }
-            } else if (card instanceof braze.ImageOnly) {
-              // Use `card.imageUrl`, etc.
-            }
-          });
-        });
-      } else {
-        // Retry after 100ms if Braze is not yet initialized
-        setTimeout(initializeBraze, 100);
+      // Clear existing content by removing all child elements
+      while (couponFeed.firstChild) {
+        couponFeed.removeChild(couponFeed.firstChild);
       }
-    }
 
-    // Start the initialization check
-    initializeBraze();
+      // For example:
+      cards.forEach(function (card) {
+        console.log(card); // Log the card properties to the console
+
+        if (card.isControl) {
+          // Do not display the control card, but remember to call `logContentCardImpressions([card])`
+        } else if (card instanceof braze.ClassicCard || card instanceof braze.CaptionedImage) {
+          if (card.extras["type"] == "coupon" && card.extras["coupon_code"] !== "") {
+            var cardHtml =
+              '<div class="coupon-card" onclick="window.open(\'' + card.url + '\', \'_blank\')">' +
+              '<img src="' + card.imageUrl + '" alt="' + card.title + '">' +
+              '<div class="coupon-card-content">' +
+              '<h3>' + card.title + '</h3>' +
+              '<p>' + card.description + '</p>' +
+              '<p class="coupon-code">Code: ' + card.extras["coupon_code"] + '</p>' +
+              '</div>' +
+              '</div>';
+            couponFeed.innerHTML += cardHtml;
+
+            // Log impression for the card
+            window.braze.logContentCardImpressions([card]);
+          }
+        } else if (card instanceof braze.ImageOnly) {
+          // Use `card.imageUrl`, etc.
+        }
+      });
+    });
   </script>
 
 </body>
