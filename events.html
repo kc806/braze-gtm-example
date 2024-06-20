@@ -144,30 +144,20 @@
       transform: scale(0.95);
     }
 
-    .top-buttons {
-      position: absolute;
-      top: 20px;
-      left: 20px;
+    #navigate_purchase_button {
+      background-color: #28a745;
     }
 
-    .top-buttons button {
-      background-color: #6c757d;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s, transform 0.3s;
+    #navigate_purchase_button:hover {
+      background-color: #218838;
     }
 
-    .top-buttons button:hover {
-      background-color: #5a6268;
-      transform: scale(1.05);
+    #back_to_login_button {
+      background-color: #ff6b6b;
     }
 
-    .top-buttons button:active {
-      transform: scale(0.95);
+    #back_to_login_button:hover {
+      background-color: #ff4c4c;
     }
   </style>
 </head>
@@ -179,9 +169,6 @@
   </noscript>
   <!-- End Google Tag Manager (noscript) -->
   <div class="wrapper">
-    <div class="top-buttons">
-      <button onclick="navigateToLogin()">Go Back to Login</button>
-    </div>
     <div class="container">
       <h1>Custom Data</h1>
       <div class="buttons">
@@ -200,13 +187,14 @@
 
         <!-- Navigation to Purchase -->
         <button id="navigate_purchase_button" onclick="navigateToPurchase()">Proceed to Checkout</button>
+        <button id="back_to_login_button" onclick="navigateToLogin()">Back to Login</button>
       </div>
     </div>
   </div>
 
   <script type="text/javascript">
     function navigateToLogin() {
-      window.location.href = 'login.html'; // Navigate to Login page
+      window.location.href = 'index.html'; // Navigate to Login page
     }
 
     function addPropertyRow() {
