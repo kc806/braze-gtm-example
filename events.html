@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YLBE0DJ8NX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLBE0DJ8NX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-YLBE0DJ8NX');
-</script>
+    gtag('config', 'G-YLBE0DJ8NX');
+  </script>
 
   <!-- Google Tag Manager -->
   <script>
@@ -28,7 +29,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
+      background: linear-gradient(135deg, #f0f2f5, #c0c0c0);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -49,38 +50,42 @@
     .container {
       background-color: white;
       padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       max-width: 600px;
       width: 100%;
       text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .container:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
     }
 
     h1 {
       text-align: center;
       color: #333;
+      margin-bottom: 20px;
     }
 
     input,
     button,
     select {
       width: calc(100% - 20px);
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 4px;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 16px;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
 
-    button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
+    input:focus,
+    select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+      outline: none;
     }
 
     .buttons {
@@ -105,9 +110,41 @@
       width: 80px;
       flex-shrink: 0;
       padding: 0;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .event-property-row button:hover {
+      background-color: #c82333;
+      transform: scale(1.05);
+    }
+
+    .event-property-row button:active {
+      transform: scale(0.95);
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(0.95);
     }
   </style>
 </head>
+
 <body>
   <!-- Google Tag Manager (noscript) -->
   <noscript>

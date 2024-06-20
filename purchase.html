@@ -27,7 +27,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
+      background: linear-gradient(135deg, #f0f2f5, #c0c0c0);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -49,12 +49,18 @@
     .container {
       background-color: white;
       padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       max-width: 600px;
       width: 100%;
       text-align: center;
       position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .container:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
     }
 
     h1 {
@@ -67,11 +73,18 @@
     button,
     select {
       width: calc(100% - 20px);
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 4px;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 16px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+      outline: none;
     }
 
     button {
@@ -79,10 +92,16 @@
       color: white;
       border: none;
       cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
     }
 
     button:hover {
       background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(0.95);
     }
 
     .buttons {
@@ -122,6 +141,7 @@
       width: auto;
       padding: 10px 20px;
       font-size: 14px;
+      transition: background-color 0.3s, transform 0.3s;
     }
 
     #back_button {
@@ -130,6 +150,11 @@
 
     #back_button:hover {
       background-color: #5a6268;
+      transform: scale(1.05);
+    }
+
+    #back_button:active {
+      transform: scale(0.95);
     }
 
     #coupons_button {
@@ -138,6 +163,11 @@
 
     #coupons_button:hover {
       background-color: #218838;
+      transform: scale(1.05);
+    }
+
+    #coupons_button:active {
+      transform: scale(0.95);
     }
   </style>
 </head>
