@@ -45,6 +45,7 @@
       width: 100%;
       height: 100%;
       overflow: auto;
+      position: relative;
     }
 
     .container {
@@ -142,6 +143,32 @@
     button:active {
       transform: scale(0.95);
     }
+
+    .top-buttons {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .top-buttons button {
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .top-buttons button:hover {
+      background-color: #5a6268;
+      transform: scale(1.05);
+    }
+
+    .top-buttons button:active {
+      transform: scale(0.95);
+    }
   </style>
 </head>
 
@@ -152,6 +179,9 @@
   </noscript>
   <!-- End Google Tag Manager (noscript) -->
   <div class="wrapper">
+    <div class="top-buttons">
+      <button onclick="navigateToLogin()">Go Back to Login</button>
+    </div>
     <div class="container">
       <h1>Custom Data</h1>
       <div class="buttons">
@@ -166,7 +196,7 @@
         <!-- Custom Attribute Setting -->
         <input type="text" id="attribute_name" placeholder="Attribute Name">
         <input type="text" id="attribute_value" placeholder="Attribute Value">
-        <button id="set_attribute_button">Set Attribute</button>
+        <button id="set_attribute_button" onclick="setCustomAttribute()">Set Attribute</button>
 
         <!-- Navigation to Purchase -->
         <button id="navigate_purchase_button" onclick="navigateToPurchase()">Proceed to Checkout</button>
@@ -175,6 +205,10 @@
   </div>
 
   <script type="text/javascript">
+    function navigateToLogin() {
+      window.location.href = 'login.html'; // Navigate to Login page
+    }
+
     function addPropertyRow() {
       const propertyRow = document.createElement('div');
       propertyRow.classList.add('event-property-row');
@@ -231,6 +265,20 @@
       } else {
         alert("Please provide an event name.");
       }
+    }
+
+    function setCustomAttribute() {
+      const attributeName = document.getElementById('attribute_name').value;
+      const attributeValue = document.getElementById('attribute_value').value;
+
+      if (attributeName.trim() === "") {
+        alert("Attribute name cannot be blank.");
+        return;
+      }
+
+      // Assuming Braze SDK is initialized and available
+      braze.getUser().setCustomUserAttribute(attributeName, attributeValue);
+      alert(`Attribute ${attributeName} set to ${attributeValue}`);
     }
 
     function navigateToPurchase() {
