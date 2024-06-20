@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLBE0DJ8NX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-YLBE0DJ8NX');
@@ -66,7 +67,8 @@
     h1 {
       text-align: center;
       color: #333;
-      margin-top: 80px; /* Increase margin to create more space between buttons and title */
+      margin-top: 80px;
+      /* Increase margin to create more space between buttons and title */
     }
 
     input,
@@ -145,13 +147,15 @@
     }
 
     #back_button {
-  background-color: #dc3545; /* Nice red color */
-}
+      background-color: #dc3545;
+      /* Nice red color */
+    }
 
-#back_button:hover {
-  background-color: #c82333; /* Slightly darker red for hover effect */
-  transform: scale(1.05);
-}
+    #back_button:hover {
+      background-color: #c82333;
+      /* Slightly darker red for hover effect */
+      transform: scale(1.05);
+    }
 
     #back_button:active {
       transform: scale(0.95);
@@ -171,10 +175,12 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Google Tag Manager (noscript) -->
   <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59LJG6KH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59LJG6KH" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
   </noscript>
   <!-- End Google Tag Manager (noscript) -->
   <div class="wrapper">
@@ -216,17 +222,17 @@
       `;
       document.getElementById('items_container').appendChild(itemRow);
     }
-  
+
     function logCheckoutEvent() {
       const itemRows = document.querySelectorAll('.item-row');
       const items = [];
-  
+
       itemRows.forEach(row => {
         const name = row.querySelector('.item-name').value;
         const id = row.querySelector('.item-id').value;
         const price = parseFloat(row.querySelector('.item-price').value);
         const quantity = parseInt(row.querySelector('.item-quantity').value, 10);
-  
+
         if ((name || id) && !isNaN(price) && !isNaN(quantity)) {
           items.push({
             item_name: name,
@@ -238,11 +244,11 @@
           });
         }
       });
-  
+
       if (items.length > 0) {
         const transactionId = "T12345"; // Replace with dynamic transaction ID if available
         const totalValue = items.reduce((total, item) => total + (item.price * item.quantity), 0);
-  
+
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           event: "purchase",
@@ -261,6 +267,7 @@
       }
     }
   </script>
-  
+
 </body>
+
 </html>
