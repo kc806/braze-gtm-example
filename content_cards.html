@@ -111,6 +111,27 @@
     .coupon-card .cta-button:hover {
       background-color: #2980b9;
     }
+
+    .top-buttons {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .top-buttons button {
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .top-buttons button:hover {
+      background-color: #5a6268;
+    }
   </style>
 </head>
 
@@ -123,8 +144,58 @@
   </noscript>
   <!-- End Google Tag Manager (noscript) -->
 
+  <div class="top-buttons">
+    <button onclick="navigateToCheckout()">Go Back to Checkout Page</button>
+  </div>
+
   <h1>Coupons</h1>
   <div class="coupon-feed" id="coupon-feed"></div>
+
+  <script type="text/javascript">
+    function navigateToCheckout() {
+      window.location.href = 'checkout.html'; // Navigate to Checkout page
+    }
+
+    // Ensure Braze SDK is loaded
+    window.braze.requestContentCardsRefresh();
+
+    window.braze.subscribeToContentCardsUpdates(function (updates) {
+      var cards = updates.cards;
+      var couponFeed = document.getElementById('coupon-feed');
+
+      // Clear existing content by removing all child elements
+      while (couponFeed.firstChild) {
+        couponFeed.removeChild(couponFeed.firstChild);
+      }
+
+      // For example:
+      cards.forEach(function (card) {
+        console.log(card); // Log the card properties to the console
+
+        if (card.isControl) {
+          // Do not display the control card, but remember to call `logContentCardImpressions([card])`
+        } else if (card instanceof braze.ClassicCard || card instanceof braze.CaptionedImage) {
+          if (card.extras["type"] == "coupon" && card.extras["coupon_code"] !== "") {
+            var cardHtml =
+              '<div class="coupon-card" onclick="window.open(\'' + card.url + '\', \'_blank\')">' +
+              '<img src="' + card.imageUrl + '" alt="' + card.title + '">' +
+              '<div class="coupon-card-content">' +
+              '<h3>' + card.title + '</h3>' +
+              '<p>' + card.description + '</p>' +
+              '<p class="coupon-code">Code: ' + card.extras["coupon_code"] + '</p>' +
+              '</div>' +
+              '</div>';
+            couponFeed.innerHTML += cardHtml;
+
+            // Log impression for the card
+            window.braze.logContentCardImpressions([card]);
+          }
+        } else if (card instanceof braze.ImageOnly) {
+          // Use `card.imageUrl`, etc.
+        }
+      });
+    });
+  </script>
 
 </body>
 
