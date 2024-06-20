@@ -175,11 +175,7 @@
       window.location.href = 'purchase.html'; // Navigate to Checkout page
     }
 
-    // Ensure Braze SDK is loaded
-    window.braze.requestContentCardsRefresh();
-
-    window.braze.subscribeToContentCardsUpdates(function (updates) {
-      var cards = updates.cards;
+    function displayCards(cards) {
       var couponFeed = document.getElementById('coupon-feed');
 
       // Clear existing content by removing all child elements
@@ -187,32 +183,62 @@
         couponFeed.removeChild(couponFeed.firstChild);
       }
 
-      // For example:
+      // Display cards
       cards.forEach(function (card) {
-        console.log(card); // Log the card properties to the console
-
-        if (card.isControl) {
-          // Do not display the control card, but remember to call `logContentCardImpressions([card])`
-        } else if (card instanceof braze.ClassicCard || card instanceof braze.CaptionedImage) {
-          if (card.extras["type"] == "coupon" && card.extras["coupon_code"] !== "") {
-            var cardHtml =
-              '<div class="coupon-card" onclick="window.open(\'' + card.url + '\', \'_blank\')">' +
-              '<img src="' + card.imageUrl + '" alt="' + card.title + '">' +
-              '<div class="coupon-card-content">' +
-              '<h3>' + card.title + '</h3>' +
-              '<p>' + card.description + '</p>' +
-              '<p class="coupon-code">Code: ' + card.extras["coupon_code"] + '</p>' +
-              '</div>' +
-              '</div>';
-            couponFeed.innerHTML += cardHtml;
-
-            // Log impression for the card
-            window.braze.logContentCardImpressions([card]);
-          }
-        } else if (card instanceof braze.ImageOnly) {
-          // Use `card.imageUrl`, etc.
+        if (card.extras["type"] == "coupon" && card.extras["coupon_code"] !== "") {
+          var cardHtml =
+            '<div class="coupon-card" onclick="window.open(\'' + card.url + '\', \'_blank\')">' +
+            '<img src="' + card.imageUrl + '" alt="' + card.title + '">' +
+            '<div class="coupon-card-content">' +
+            '<h3>' + card.title + '</h3>' +
+            '<p>' + card.description + '</p>' +
+            '<p class="coupon-code">Code: ' + card.extras["coupon_code"] + '</p>' +
+            '</div>' +
+            '</div>';
+          couponFeed.innerHTML += cardHtml;
         }
       });
+    }
+
+    function saveCardsToLocalStorage(cards) {
+      localStorage.setItem('couponCards', JSON.stringify(cards));
+    }
+
+    function getCardsFromLocalStorage() {
+      var cards = localStorage.getItem('couponCards');
+      return cards ? JSON.parse(cards) : [];
+    }
+
+    // Display cards from localStorage initially
+    var storedCards = getCardsFromLocalStorage();
+    if (storedCards.length > 0) {
+      displayCards(storedCards);
+    }
+
+    // Ensure Braze SDK is loaded
+    window.braze.requestContentCardsRefresh();
+
+    window.braze.subscribeToContentCardsUpdates(function (updates) {
+      var cards = updates.cards;
+
+      // Check if rate-limited
+      var rateLimited = false;
+      console.log = (function (oldLog) {
+        return function (message) {
+          if (message.includes("Braze: content_cards/sync SDK request being rate limited.")) {
+            rateLimited = true;
+          }
+          oldLog.apply(console, arguments);
+        };
+      })(console.log);
+
+      if (!rateLimited) {
+        // Save cards to localStorage
+        saveCardsToLocalStorage(cards);
+      }
+
+      // Display cards
+      displayCards(cards);
     });
   </script>
 
