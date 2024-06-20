@@ -98,16 +98,44 @@
     button:active {
       transform: scale(0.95);
     }
+
+    #changeUserButton {
+      background-color: #dc3545; /* Nice red color */
+    }
+
+    #changeUserButton:hover {
+      background-color: #c82333; /* Slightly darker red for hover effect */
+      transform: scale(1.05);
+    }
   </style>
 
   <script type="text/javascript">
+
+function redirectWithDelay() {
+    // Set a 3-second delay before redirecting
+    setTimeout(function() {
+        window.location.href = 'events.html';
+    }, 1500); // 3000 milliseconds = 3 seconds
+}
+
     function loginUser() {
       var inputElement = document.getElementById("user_id");
-      // Check if the value of the input element is not blank
-      if (inputElement.value.trim() !== "") {
-        console.log("User ID: ", inputElement.value);
+      var userInput = inputElement.value.trim();
+
+      if (userInput !== "") {
+        window.braze.getUser().getUserId(function (currentUserId) {
+          var changeUserButton = document.getElementById("changeUserButton");
+          if (currentUserId === userInput) {
+            changeUserButton.textContent = `Current user is already ${userInput}. Do Nothing.`;
+            redirectWithDelay();
+          } else {
+            changeUserButton.textContent = `Starting a new session with ${userInput}...`;
+            // Redirect to events page
+            redirectWithDelay();
+          }
+        });
       } else {
-        console.log("User ID cannot be blank.");
+        alert("User ID cannot be blank.");
       }
     }
   </script>
