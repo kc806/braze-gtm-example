@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLBE0DJ8NX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-  
-      gtag('config', 'G-YLBE0DJ8NX');
-    </script>
-  
-    <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-        var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-59LJG6KH');
-    </script>
-    <!-- End Google Tag Manager -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLBE0DJ8NX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-YLBE0DJ8NX');
+  </script>
+
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-59LJG6KH');
+  </script>
+  <!-- End Google Tag Manager -->
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,12 +37,14 @@
       align-items: center;
       flex-direction: column;
     }
+
     .coupon-feed {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
     }
+
     .coupon-card {
       background-color: #fff;
       border-radius: 10px;
@@ -50,32 +53,39 @@
       transition: transform 0.3s, box-shadow 0.3s;
       width: 300px;
     }
+
     .coupon-card:hover {
       transform: translateY(-10px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
+
     .coupon-card img {
       width: 100%;
       height: auto;
     }
+
     .coupon-card-content {
       padding: 20px;
     }
+
     .coupon-card h3 {
       font-size: 1.5em;
       margin: 0 0 10px;
       color: #333;
     }
+
     .coupon-card p {
       font-size: 1em;
       margin: 0 0 10px;
       color: #666;
     }
+
     .coupon-card .coupon-code {
       font-size: 1.2em;
       font-weight: bold;
       color: #e74c3c;
     }
+
     .coupon-card .cta-button {
       display: inline-block;
       margin-top: 10px;
@@ -87,51 +97,80 @@
       text-decoration: none;
       transition: background-color 0.3s;
     }
+
     .coupon-card .cta-button:hover {
       background-color: #2980b9;
     }
   </style>
 </head>
+
 <body>
 
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59LJG6KH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59LJG6KH" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
   <h1>Exclusive Coupons</h1>
   <div class="coupon-feed" id="coupon-feed"></div>
 
   <script type="text/javascript">
     // Ensure Braze SDK is loaded
-    window.brazeQueue = window.brazeQueue || [];
-    window.brazeQueue.push(function() {
-      braze.load("content_cards").then(function() {
-        braze.contentCards.requestContentCardsRefresh();
-        braze.contentCards.subscribeToContentCardsUpdates(function(cards) {
-          var couponFeed = document.getElementById('coupon-feed');
-          couponFeed.innerHTML = ''; // Clear existing content
+    braze.contentCards.requestContentCardsRefresh();
 
-          cards.forEach(function(card) {
-            if (card.extras && card.extras.type === 'coupon') {
-              var cardHtml = `
+    braze.subscribeToContentCardsUpdates((updates) => {
+      const cards = updates.cards;
+      // For example:
+      cards.forEach(card => {
+        if (card.isControl) {
+          // Do not display the control card, but remember to call `logContentCardImpressions([card])`
+        }
+        else if (card instanceof braze.ClassicCard || card instanceof braze.CaptionedImage) {
+          if (card.extras["type"] == "coupon" && card.extras["coupon_code"] !== "") {
+          var cardHtml = `
                 <div class="coupon-card">
-                  <img src="${card.image_url}" alt="${card.title}">
+                  <img src="${card.imageURL}" alt="${card.title}">
                   <div class="coupon-card-content">
                     <h3>${card.title}</h3>
                     <p>${card.description}</p>
-                    <p class="coupon-code">Code: ${card.extras.coupon_code}</p>
+                    <p class="coupon-code">Code: ${card.extras["coupon_code"]}</p>
                     <a href="${card.url}" class="cta-button">Redeem Now</a>
                   </div>
                 </div>
               `;
-              couponFeed.innerHTML += cardHtml;
-            }
-          });
-        });
-      });
+          couponFeed.innerHTML += cardHtml;
+        }
+        }
+        else if (card instanceof braze.ImageOnly) {
+          // Use `card.imageUrl`, etc.
+        }
+      })
     });
+
+    // braze.contentCards.subscribeToContentCardsUpdates(function (cards) {
+    //   var couponFeed = document.getElementById('coupon-feed');
+    //   couponFeed.innerHTML = ''; // Clear existing content
+
+    //   cards.forEach(function (card) {
+    //     if (card.extras && card.extras.type === 'coupon') {
+    //       var cardHtml = `
+    //             <div class="coupon-card">
+    //               <img src="${card.image_url}" alt="${card.title}">
+    //               <div class="coupon-card-content">
+    //                 <h3>${card.title}</h3>
+    //                 <p>${card.description}</p>
+    //                 <p class="coupon-code">Code: ${card.extras.coupon_code}</p>
+    //                 <a href="${card.url}" class="cta-button">Redeem Now</a>
+    //               </div>
+    //             </div>
+    //           `;
+    //       couponFeed.innerHTML += cardHtml;
+    //     }
+    //   });
+    // });
   </script>
 </body>
+
 </html>
