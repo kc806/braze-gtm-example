@@ -115,7 +115,7 @@
   <!-- End Google Tag Manager (noscript) -->
   <div class="wrapper">
     <div class="container">
-      <h1>Checkout Page</h1>
+      <h1>Checkout Cart</h1>
       <div class="buttons">
         <!-- Items for Checkout -->
         <div id="items_container">
@@ -186,7 +186,7 @@ function navigateToContentCards() {
         //window.dataLayer.push({ event: "checkout_complete" }); // Custom event
         console.log("Checkout event logged with items: ${JSON.stringify(items)}");
       } else {
-        console.log("Please add at least one item with valid details.");
+        alert("Please add at least one item with valid details.");
       }
     }
   </script>
