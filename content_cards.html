@@ -118,9 +118,9 @@
 
   <script type="text/javascript">
     // Ensure Braze SDK is loaded
-    braze.contentCards.requestContentCardsRefresh();
+    window.braze.requestContentCardsRefresh();
 
-    braze.subscribeToContentCardsUpdates((updates) => {
+    window.braze.subscribeToContentCardsUpdates((updates) => {
       const cards = updates.cards;
       // For example:
       cards.forEach(card => {
