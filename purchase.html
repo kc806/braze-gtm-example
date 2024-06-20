@@ -54,6 +54,7 @@
       max-width: 600px;
       width: 100%;
       text-align: center;
+      position: relative;
     }
 
     h1 {
@@ -108,12 +109,12 @@
     }
 
     .top-buttons {
-      position: absolute;
-      top: 20px;
-      width: calc(100% - 40px);
       display: flex;
       justify-content: space-between;
-      padding: 0 20px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
     }
 
     .top-buttons button {
@@ -146,11 +147,11 @@
   </noscript>
   <!-- End Google Tag Manager (noscript) -->
   <div class="wrapper">
-    <div class="top-buttons">
-      <button id="back_button" onclick="navigateToEvents()">Go Back to Custom Data Page</button>
-      <button id="coupons_button" onclick="navigateToContentCards()">View Coupons</button>
-    </div>
     <div class="container">
+      <div class="top-buttons">
+        <button id="back_button" onclick="navigateToEvents()">Go Back to Custom Data Page</button>
+        <button id="coupons_button" onclick="navigateToContentCards()">View Coupons</button>
+      </div>
       <h1>Checkout Cart</h1>
       <div class="buttons">
         <!-- Items for Checkout -->
