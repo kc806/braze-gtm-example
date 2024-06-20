@@ -172,10 +172,12 @@
 
   <script type="text/javascript">
     function navigateToCheckout() {
+      console.log('Navigating to Checkout page');
       window.location.href = 'purchase.html'; // Navigate to Checkout page
     }
 
-    function displayCards(cards) {
+    function renderCards(cards) {
+      console.log('Rendering cards:', cards);
       var couponFeed = document.getElementById('coupon-feed');
 
       // Clear existing content by removing all child elements
@@ -183,68 +185,57 @@
         couponFeed.removeChild(couponFeed.firstChild);
       }
 
-      // Display cards
       cards.forEach(function (card) {
-        if (card.extras["type"] == "coupon" && card.extras["coupon_code"] !== "") {
-          var cardHtml =
-            '<div class="coupon-card" onclick="window.open(\'' + card.url + '\', \'_blank\')">' +
-            '<img src="' + card.imageUrl + '" alt="' + card.title + '">' +
-            '<div class="coupon-card-content">' +
-            '<h3>' + card.title + '</h3>' +
-            '<p>' + card.description + '</p>' +
-            '<p class="coupon-code">Code: ' + card.extras["coupon_code"] + '</p>' +
-            '</div>' +
-            '</div>';
-          couponFeed.innerHTML += cardHtml;
+        if (card.isControl) {
+          console.log('Skipping control card:', card);
+          // Do not display the control card, but remember to call `logContentCardImpressions([card])`
+        } else if (card instanceof braze.ClassicCard || card instanceof braze.CaptionedImage) {
+          if (card.extras["type"] == "coupon" && card.extras["coupon_code"] !== "") {
+            var cardHtml =
+              '<div class="coupon-card" onclick="window.open(\'' + card.url + '\', \'_blank\')">' +
+              '<img src="' + card.imageUrl + '" alt="' + card.title + '">' +
+              '<div class="coupon-card-content">' +
+              '<h3>' + card.title + '</h3>' +
+              '<p>' + card.description + '</p>' +
+              '<p class="coupon-code">Code: ' + card.extras["coupon_code"] + '</p>' +
+              '</div>' +
+              '</div>';
+            couponFeed.innerHTML += cardHtml;
+
+            console.log('Logging impression for card:', card);
+            // Log impression for the card
+            window.braze.logContentCardImpressions([card]);
+          }
+        } else if (card instanceof braze.ImageOnly) {
+          console.log('Rendering ImageOnly card:', card);
+          // Use `card.imageUrl`, etc.
         }
       });
     }
 
-    function saveCardsToLocalStorage(cards) {
-      localStorage.setItem('couponCards', JSON.stringify(cards));
-      console.log('Cards saved to localStorage.');
-    }
-
-    function getCardsFromLocalStorage() {
-      var cards = localStorage.getItem('couponCards');
-      return cards ? JSON.parse(cards) : [];
-    }
-
-    // Display cards from localStorage initially
-    var storedCards = getCardsFromLocalStorage();
-    if (storedCards.length > 0) {
-      console.log('Displaying cards from localStorage.');
-      displayCards(storedCards);
+    // Check for cached content cards in local storage
+    var cachedCards = localStorage.getItem('contentCards');
+    if (cachedCards) {
+      console.log('Found cached cards in local storage:', cachedCards);
+      renderCards(JSON.parse(cachedCards));
+    } else {
+      console.log('No cached cards found in local storage');
     }
 
     // Ensure Braze SDK is loaded
+    console.log('Requesting content cards refresh');
     window.braze.requestContentCardsRefresh();
 
     window.braze.subscribeToContentCardsUpdates(function (updates) {
       var cards = updates.cards;
-      var rateLimited = false;
+      console.log('Received content cards updates:', cards);
 
-      // Check if rate-limited by intercepting console messages
-      var originalConsoleLog = console.log;
-      console.log = function (message) {
-        if (typeof message === 'string' && message.includes("Braze: content_cards/sync SDK request being rate limited.")) {
-          rateLimited = true;
-          originalConsoleLog('Rate-limited: Not updating localStorage.');
-        }
-        originalConsoleLog.apply(console, arguments);
-      };
+      // Render the new cards
+      renderCards(cards);
 
-      // Display cards
-      displayCards(cards);
-
-      // Save cards to localStorage if not rate-limited
-      if (!rateLimited) {
-        saveCardsToLocalStorage(cards);
-        console.log('Cards saved to localStorage.');
-      }
-
-      // Restore original console.log
-      console.log = originalConsoleLog;
+      // Store the new cards in local storage
+      localStorage.setItem('contentCards', JSON.stringify(cards));
+      console.log('Stored new cards in local storage');
     });
   </script>
 
