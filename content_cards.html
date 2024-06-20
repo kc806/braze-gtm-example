@@ -222,26 +222,28 @@
 
     window.braze.subscribeToContentCardsUpdates(function (updates) {
       var cards = updates.cards;
-
-      // Check if rate-limited
       var rateLimited = false;
-      console.log = (function (oldLog) {
-        return function (message) {
-          if (message.includes("Braze: content_cards/sync SDK request being rate limited.")) {
-            rateLimited = true;
-            console.log('Rate-limited: Not updating localStorage.');
-          }
-          oldLog.apply(console, arguments);
-        };
-      })(console.log);
 
-      if (!rateLimited) {
-        // Save cards to localStorage
-        saveCardsToLocalStorage(cards);
-      }
+      // Check if rate-limited by intercepting console messages
+      var originalConsoleLog = console.log;
+      console.log = function (message) {
+        if (typeof message === 'string' && message.includes("Braze: content_cards/sync SDK request being rate limited.")) {
+          rateLimited = true;
+          console.log('Rate-limited: Not updating localStorage.');
+        }
+        originalConsoleLog.apply(console, arguments);
+      };
 
       // Display cards
       displayCards(cards);
+
+      // Save cards to localStorage if not rate-limited
+      if (!rateLimited) {
+        saveCardsToLocalStorage(cards);
+      }
+
+      // Restore original console.log
+      console.log = originalConsoleLog;
     });
   </script>
 
