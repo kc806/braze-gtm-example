@@ -116,61 +116,6 @@
   <h1>Exclusive Coupons</h1>
   <div class="coupon-feed" id="coupon-feed"></div>
 
-  <script type="text/javascript">
-    // Ensure Braze SDK is loaded
-    window.braze.requestContentCardsRefresh();
-
-    window.braze.subscribeToContentCardsUpdates((updates) => {
-      const cards = updates.cards;
-      // For example:
-      cards.forEach(card => {
-        if (card.isControl) {
-          // Do not display the control card, but remember to call `logContentCardImpressions([card])`
-        }
-        else if (card instanceof braze.ClassicCard || card instanceof braze.CaptionedImage) {
-          if (card.extras["type"] == "coupon" && card.extras["coupon_code"] !== "") {
-          var cardHtml = `
-                <div class="coupon-card">
-                  <img src="${card.imageURL}" alt="${card.title}">
-                  <div class="coupon-card-content">
-                    <h3>${card.title}</h3>
-                    <p>${card.description}</p>
-                    <p class="coupon-code">Code: ${card.extras["coupon_code"]}</p>
-                    <a href="${card.url}" class="cta-button">Redeem Now</a>
-                  </div>
-                </div>
-              `;
-          couponFeed.innerHTML += cardHtml;
-        }
-        }
-        else if (card instanceof braze.ImageOnly) {
-          // Use `card.imageUrl`, etc.
-        }
-      })
-    });
-
-    // braze.contentCards.subscribeToContentCardsUpdates(function (cards) {
-    //   var couponFeed = document.getElementById('coupon-feed');
-    //   couponFeed.innerHTML = ''; // Clear existing content
-
-    //   cards.forEach(function (card) {
-    //     if (card.extras && card.extras.type === 'coupon') {
-    //       var cardHtml = `
-    //             <div class="coupon-card">
-    //               <img src="${card.image_url}" alt="${card.title}">
-    //               <div class="coupon-card-content">
-    //                 <h3>${card.title}</h3>
-    //                 <p>${card.description}</p>
-    //                 <p class="coupon-code">Code: ${card.extras.coupon_code}</p>
-    //                 <a href="${card.url}" class="cta-button">Redeem Now</a>
-    //               </div>
-    //             </div>
-    //           `;
-    //       couponFeed.innerHTML += cardHtml;
-    //     }
-    //   });
-    // });
-  </script>
 </body>
 
 </html>
